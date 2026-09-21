@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soniya Live UI</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+        body {
+            background: #0f0217 linear-gradient(180deg, #1f032b 0%, #0d0114 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+            padding: 15px 0;
+        }
+
+        /* ব্যাকগ্রাউন্ড হার্টস */
+        .bg-hearts {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .heart-particle {
+            position: absolute;
+            color: rgba(255, 105, 180, 0.35);
+            font-size: 18px;
+            animation: floatUp 7s infinite linear;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.6); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(20, 5, 30, 0.85);
+            border-radius: 30px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.25);
+            z-index: 2;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 105, 180, 0.2);
+        }
+
+        /* প্রোফাইল হেডার */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .avatar-ring {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            padding: 4px;
+            background: linear-gradient(135deg, #ffd700, #ff1493, #00ffff);
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.6);
+            flex-shrink: 0;
+        }
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+        }
+        .user-info { flex-grow: 1; }
+        .user-name-title {
+            font-size: 22px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+        }
+        .vip-badge {
+            background: linear-gradient(45deg, #ff1493, #a020f0);
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            border: 1px solid #ffb6c1;
+        }
+        .active-status {
+            font-size: 13px;
+            color: #00ff7f;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 3px;
+        }
+        .account-no-text {
+            font-size: 11px;
+            color: #ffb6c1;
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+
+        /* টোটাল ইনকাম কার্ড */
+        .income-card {
+            background: rgba(10, 2, 18, 0.9);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3), inset 0 0 15px rgba(0, 255, 255, 0.15);
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .income-label { font-size: 16px; color: #e0e0e0; }
+        .income-amount {
+            font-size: 34px;
+            font-weight: bold;
+            color: #ffe600;
+            text-shadow: 0 0 10px rgba(255, 230, 0, 0.6);
+            margin-top: 4px;
+        }
+
+        /* স্টার্ট লাইভ কল বাটন */
+        .call-btn-box {
+            background: linear-gradient(135deg, rgba(255,20,147,0.3), rgba(0,255,255,0.2));
+            border: 1.5px solid #ff1493;
+            border-radius: 25px;
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 15px;
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.4);
+        }
+        .call-icons { font-size: 20px; margin-bottom: 3px; color: #fff; }
+        .call-text { font-size: 16px; font-weight: bold; color: #fff; }
+
+        /* ইউজ সেশন প্রাইভেট মেসেঞ্জার অ্যাপ বক্স */
+        .session-app-box {
+            background: rgba(15, 5, 25, 0.9);
+            border: 2px solid #ff00ff;
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 0 18px rgba(255, 0, 255, 0.4);
+            margin-bottom: 15px;
+        }
+        .session-app-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 8px #ff00ff;
+            line-height: 1.3;
+        }
+
+        /* উইথড্র মানি / টাকা তুলুন বক্স */
+        .withdraw-box {
+            background: rgba(15, 5, 25, 0.9);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            margin-bottom: 20px;
+        }
+        .withdraw-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #ff69b4;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            margin-bottom: 8px;
+            outline: none;
+            font-size: 13px;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #ff1493, #00ffff);
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
+        }
+
+        /* অপশন চেঞ্জ সেকশন */
+        .settings-box {
+            background: rgba(255,255,255,0.04);
+            border-radius: 15px;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px dashed rgba(255,182,193,0.3);
+        }
+        .settings-title { font-size: 13px; color: #ffb6c1; margin-bottom: 8px; }
+
+        /* রিসেন্ট আর্নিংস লিস্ট */
+        .earnings-title { font-size: 16px; font-weight: bold; color: #fff; margin-bottom: 10px; }
+        .earning-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 3px solid #00ff7f;
+            font-size: 13px;
+        }
+        .earning-item.deduct { border-left-color: #ff4e4e; }
+        .earning-item.pending { border-left-color: #ffe600; }
+        .status-tag {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 5px;
+        }
+        .status-pending { background: #ffe600; color: #000; }
+        .status-success { background: #00ff7f; color: #000; }
+
+        /* এডমিন মোডাল */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 99;
+            justify-content: center;
+            align-items: center;
+        }
+        .admin-content {
+            background: #1c0224;
+            border: 2px solid #00ffff;
+            padding: 20px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 340px;
+        }
+        .report-link {
+            text-align: center;
+            font-size: 10px;
+            color: rgba(255,255,255,0.2);
+            margin-top: 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-hearts" id="heartsBg"></div>
+
+    <div class="app-container">
+        <!-- প্রোফাইল সেকশন -->
+        <div class="profile-header">
+            <div class="avatar-ring">
+                <img id="displayPic" class="avatar-img" src="" alt="Soniya">
+            </div>
+            <div class="user-info">
+                <div class="user-name-title">
+                    <span id="displayName">Soniya_Live</span>
+                    <span class="vip-badge">VIP</span>
+                </div>
+                <div class="active-status">● Active</div>
+                <div class="account-no-text">ID: <span id="displayAccount">8801712345678</span></div>
+            </div>
+        </div>
+
+        <!-- টোটাল ইনকাম -->
+        <div class="income-card">
+            <div class="income-label">Total Income 💼</div>
+            <div class="income-amount">$<span id="displayBalance">345.50</span></div>
+        </div>
+
+        <!-- স্টার্ট লাইভ কল -->
+        <div class="call-btn-box">
+            <div class="call-icons">📹 📞</div>
+            <div class="call-text">Start Live Call</div>
+        </div>
+
+        <!-- Use session private messenger app -->
+        <div class="session-app-box">
+            <div class="session-app-text">
+                Use session private<br>messenger app
+            </div>
+        </div>
+
+        <!-- Withdraw Money / টাকা তুলুন -->
+        <div class="withdraw-box">
+            <div class="withdraw-title">
+                <span>Withdraw Money / টাকা তুলুন</span>
+                <span style="font-size: 18px;">💳</span>
+            </div>
+            <select id="wdMethod" class="form-input">
+                <option value="bKash">bKash</option>
+                <option value="Nagad">Nagad</option>
+                <option value="Rocket">Rocket</option>
+                <option value="Bank">Bank / Visa</option>
+            </select>
+            <input type="text" id="wdAccount" class="form-input" placeholder="Enter 12 Digit Account Number">
+            <input type="number" id="wdAmount" class="form-input" placeholder="Amount ($)">
+            <button class="submit-btn" onclick="submitWithdraw()">Submit Request</button>
+        </div>
+
+        <!-- প্রোফাইল সেটিং/চেঞ্জ -->
+        <div class="settings-box">
+            <div class="settings-title">⚙ Profile Settings</div>
+            <input type="text" id="inputName" class="form-input" placeholder="New Name">
+            <input type="text" id="inputAccount" class="form-input" placeholder="New 12 Digit Account Number">
+            <label style="font-size: 11px; color: #ffb6c1;">Change Photo:</label>
+            <input type="file" id="inputPic" class="form-input" accept="image/*" onchange="previewImage(this)">
+            <button class="submit-btn" style="background: #ff1493; margin-top: 5px;" onclick="saveProfile()">Save Changes</button>
+        </div>
+
+        <!-- Recent Earnings / Transactions -->
+        <div class="earnings-title">Recent Earnings</div>
+        <div id="transactionsList"></div>
+
+        <div class="report-link" onclick="openAdmin()">report</div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-content">
+            <h3 style="color: #00ffff; text-align: center; margin-bottom: 12px;">Admin Panel</h3>
+            <div style="font-size: 12px; margin-bottom: 5px;">Amount ($)</div>
+            <input type="number" id="adminAmount" class="form-input" placeholder="e.g. 20">
+            
+            <div style="font-size: 12px; margin-bottom: 5px;">Action</div>
+            <select id="adminAction" class="form-input">
+                <option value="add">Add Balance (+)</option>
+                <option value="deduct">Deduct Balance (-)</option>
+            </select>
+
+            <div style="font-size: 12px; margin-bottom: 5px;">Transaction Note</div>
+            <input type="text" id="adminNote" class="form-input" placeholder="e.g. $20 payment success">
+
+            <button class="submit-btn" onclick="submitAdmin()">Apply</button>
+            <button class="submit-btn" style="background: #444; margin-top: 6px;" onclick="closeAdmin()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // ব্যাকগ্রাউন্ড অ্যানিমেশন
+        const heartsBg = document.getElementById('heartsBg');
+        for (let i = 0; i < 15; i++) {
+            let h = document.createElement('div');
+            h.className = 'heart-particle';
+            h.innerHTML = '♥';
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            heartsBg.appendChild(h);
+        }
+
+        async function loadData() {
+            const res = await fetch('/api/user');
+            const data = await res.json();
+
+            document.getElementById('displayName').innerText = data.name;
+            document.getElementById('displayAccount').innerText = data.accountNo;
+            document.getElementById('displayBalance').innerText = data.balance.toFixed(2);
+            document.getElementById('displayPic').src = data.profilePic;
+
+            let html = '';
+            data.transactions.forEach(tx => {
+                const isPending = tx.status === 'Pending';
+                html += `
+                    <div class="earning-item ${tx.type === 'deduct' ? 'deduct' : ''} ${isPending ? 'pending' : ''}">
+                        <div>
+                            <div>${tx.note} <span class="status-tag ${isPending ? 'status-pending' : 'status-success'}">${tx.status}</span></div>
+                            <small style="color:#aaa; font-size:10px;">${tx.date}</small>
+                        </div>
+                        <div style="font-weight:bold; color:${tx.type === 'add' ? '#00ff7f' : '#ff4e4e'};">
+                            ${tx.type === 'add' ? '+' : '-'}$${tx.amount.toFixed(2)}
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('transactionsList').innerHTML = html || '<div style="font-size:12px; color:#888;">No transactions</div>';
+        }
+
+        // ছবি সিলেক্টের সাথে সাথে গোল ঘরে প্রিভিউ দেখাবে
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('displayPic').src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        async function saveProfile() {
+            const name = document.getElementById('inputName').value;
+            const accountNo = document.getElementById('inputAccount').value;
+            const fileInput = document.getElementById('inputPic');
+
+            let profilePic = "";
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    sendUpdate(name, e.target.result, accountNo);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                sendUpdate(name, "", accountNo);
+            }
+        }
+
+        async function sendUpdate(name, profilePic, accountNo) {
+            await fetch('/api/user/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, profilePic, accountNo })
+            });
+            alert('প্রোফাইল তথ্য সফলভাবে আপডেট হয়েছে!');
+            loadData();
+        }
+
+        async function submitWithdraw() {
+            const method = document.getElementById('wdMethod').value;
+            const accountNo = document.getElementById('wdAccount').value;
+            const amount = document.getElementById('wdAmount').value;
+
+            if (!accountNo || !amount) {
+                return alert("অ্যাকাউন্ট নম্বর ও টাকার পরিমাণ লিখুন!");
+            }
+
+            await fetch('/api/user/withdraw', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ method, accountNo, amount })
+            });
+
+            alert('উইথড্র রিকোয়েস্ট জমা হয়েছে! স্ট্যাটাস Pending দেখাচ্ছে।');
+            document.getElementById('wdAccount').value = '';
+            document.getElementById('wdAmount').value = '';
+            loadData();
+        }
+
+        function openAdmin() {
+            const code = prompt("Enter Admin Code:");
+            if (code === "32105425") {
+                document.getElementById('adminModal').style.display = 'flex';
+            } else if(code) {
+                alert("Wrong Code!");
+            }
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminModal').style.display = 'none';
+        }
+
+        async function submitAdmin() {
+            const amount = document.getElementById('adminAmount').value;
+            const action = document.getElementById('adminAction').value;
+            const note = document.getElementById('adminNote').value;
+
+            if (!amount) return alert("Amount দিন!");
+
+            await fetch('/api/admin/balance', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount, action, note })
+            });
+
+            alert('এডমিন অ্যাকশন সফল হয়েছে!');
+            closeAdmin();
+            loadData();
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
