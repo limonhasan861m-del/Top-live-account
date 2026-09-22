@@ -7,7 +7,7 @@ app.use(express.json({ limit: '15mb' }));
 app.use(express.static('public'));
 
 // MongoDB Atlas Connection String
-const MONGO_URI = process.env.MONGODB_URI || "mongodb+srv://limon:Limon123456@cluster0.txpczai.mongodb.net/?appName=Cluster0";
+const MONGO_URI = process.env.MONGODB_URI || "mongodb+srv://limon:Limon123456@cluster0.txpczai.mongodb.net/moss_wallet?appName=Cluster0";
 
 mongoose.connect(MONGO_URI)
     .then(() => console.log('MongoDB Connected Successfully'))
