@@ -1,7 +1,7 @@
 {
-  "name": "top-live-account",
+  "name": "myapp",
   "version": "1.0.0",
-  "description": "Node Wallet App",
+  "description": "Pink Hearts Wallet",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
