@@ -7,7 +7,7 @@ app.use(express.json({ limit: '15mb' }));
 app.use(express.static('public'));
 
 // Direct MongoDB Atlas URI Backup
-const MONGO_URI = process.env.MONGODB_URI || "mongodb+srv://limonhasan861m_db_user:F89kzc4wV4pPz8e@cluster0.txpczai.mongodb.net/?appName=Cluster0";
+const MONGO_URI = process.env.MONGODB_URI || "mongodb+srv://limon:Limon123456@cluster0.txpczai.mongodb.net/?appName=Cluster0";
 
 mongoose.connect(MONGO_URI)
     .then(() => console.log('MongoDB Connected Successfully'))
@@ -16,12 +16,12 @@ mongoose.connect(MONGO_URI)
 // Mongoose Schema
 const userSchema = new mongoose.Schema({
     userId: { type: String, default: "default_user", unique: true },
-    name: { type: String, default: "Soniya_Live" },
+    name: { type: String, default: "Moss Sathi_Live" },
     isVip: { type: Boolean, default: true },
     isActive: { type: Boolean, default: true },
-    accountNo: { type: String, default: "8801712345678" },
+    accountNo: { type: String, default: "321054258TR" },
     profilePic: { type: String, default: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300" },
-    balance: { type: Number, default: 345.50 },
+    balance: { type: Number, default: 00.50 },
     transactions: [{
         id: Number,
         note: String,
@@ -41,16 +41,16 @@ async function getOrCreateUser() {
         if (!user) {
             user = await User.create({
                 userId: "default_user",
-                name: "Soniya_Live",
+                name: "Moss Sathi_Live",
                 isVip: true,
                 isActive: true,
-                accountNo: "8801712345678",
+                accountNo: "321054258TR",
                 profilePic: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300",
-                balance: 345.50,
+                balance: 00.50,
                 transactions: [
-                    { id: 1, note: "Received $5.00", status: "Success", amount: 5.00, date: "20 Sep 2026 • 11:30 PM", type: "add" },
-                    { id: 2, note: "Received $10.00", status: "Success", amount: 10.00, date: "20 Sep 2026 • 11:15 PM", type: "add" },
-                    { id: 3, note: "Received $3.50", status: "Success", amount: 3.50, date: "20 Sep 2026 • 10:45 PM", type: "add" }
+                    { id: 1, note: "Received $0.10", status: "Success", amount: 5.00, date: "20 Sep 2026 • 11:30 PM", type: "add" },
+                    { id: 2, note: "Received $00.20", status: "Success", amount: 10.00, date: "20 Sep 2026 • 11:15 PM", type: "add" },
+                    { id: 3, note: "Received $00.20", status: "Success", amount: 3.50, date: "20 Sep 2026 • 10:45 PM", type: "add" }
                 ]
             });
         }
@@ -58,12 +58,12 @@ async function getOrCreateUser() {
     } catch (e) {
         // Fallback object to prevent undefined errors
         return {
-            name: "Soniya_Live",
+            name: "Moss Sathi_Live",
             isVip: true,
             isActive: true,
-            accountNo: "8801712345678",
+            accountNo: "321054258TR",
             profilePic: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300",
-            balance: 345.50,
+            balance: 00.50,
             transactions: []
         };
     }
