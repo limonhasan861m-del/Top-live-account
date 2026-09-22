@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moss Sathi_Live Wallet</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+        body {
+            background-color: #0b0213;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+        .app-card {
+            width: 100%;
+            max-width: 400px;
+            background: #12031e;
+            border: 2px solid #331144;
+            border-radius: 28px;
+            padding: 20px 16px;
+            box-shadow: 0 0 20px rgba(186, 0, 255, 0.2);
+            position: relative;
+        }
+        
+        /* Header / Profile Section */
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .avatar-ring {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            padding: 3px;
+            background: linear-gradient(135deg, #ff007f, #00f2fe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
+            flex-shrink: 0;
+        }
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .profile-info { flex-grow: 1; }
+        .name-row { display: flex; align-items: center; gap: 8px; }
+        .profile-name { font-size: 20px; font-weight: bold; color: #fff; }
+        .vip-badge {
+            background: linear-gradient(90deg, #e60073, #ff00ff);
+            color: #fff;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .status-online { color: #00ff66; font-size: 13px; margin-top: 3px; }
+        .status-dot { font-size: 10px; }
+        .user-id { color: #bb88aa; font-size: 13px; margin-top: 2px; }
+
+        /* Neon Box Container General */
+        .neon-box {
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        /* Income Box */
+        .income-box {
+            border: 2px solid #00f2fe;
+            background: rgba(0, 242, 254, 0.03);
+            box-shadow: inset 0 0 10px rgba(0, 242, 254, 0.1);
+        }
+        .income-title { font-size: 16px; color: #fff; font-weight: 500; }
+        .income-amount { font-size: 34px; font-weight: bold; color: #ffeb3b; margin-top: 5px; text-shadow: 0 0 8px rgba(255, 235, 59, 0.4); }
+
+        /* Button Boxes */
+        .call-btn-box {
+            border: 2px solid #ff007f;
+            background: rgba(255, 0, 127, 0.05);
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .messenger-btn-box {
+            border: 2px solid #e600ff;
+            background: rgba(230, 0, 255, 0.05);
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+
+        /* Withdraw Section */
+        .withdraw-box {
+            border: 2px solid #00f2fe;
+            background: rgba(0, 242, 254, 0.02);
+            text-align: left;
+        }
+        .withdraw-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        .form-control-dark {
+            width: 100%;
+            background: #080110;
+            border: 1px solid #ff00aa;
+            border-radius: 12px;
+            padding: 12px 14px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 10px;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #ff007f, #00f2fe);
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Profile Settings Section */
+        .settings-box {
+            border: 1px dashed #772277;
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .settings-title { font-size: 14px; color: #fff; margin-bottom: 10px; font-weight: 500; }
+        .file-input-wrapper {
+            background: #080110;
+            border: 1px solid #ff00aa;
+            border-radius: 10px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .save-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            background: #e60073;
+            color: #fff;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Earnings List */
+        .earnings-title { font-size: 16px; font-weight: bold; color: #fff; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        .earning-item {
+            background: #180528;
+            border-radius: 12px;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .badge-success { background: #00ff66; color: #000; font-size: 10px; padding: 2px 6px; border-radius: 6px; font-weight: bold; margin-left: 5px; }
+        .badge-deduct { background: #ff3366; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 6px; font-weight: bold; margin-left: 5px; }
+
+        /* Loader Overlay */
+        .loader-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(18, 3, 30, 0.85);
+            border-radius: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #00f2fe;
+            font-weight: bold;
+            z-index: 50;
+        }
+
+        /* Hidden Admin Panel Modal */
+        .admin-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 100; justify-content: center; align-items: center;
+        }
+        .admin-content { background: #1a0528; border: 2px solid #00f2fe; border-radius: 20px; padding: 20px; width: 90%; max-width: 320px; }
+    </style>
+</head>
+<body>
+
+    <div class="app-card">
+        <div id="loader" class="loader-overlay">Syncing Cloud Data...</div>
+
+        <!-- Header -->
+        <div class="profile-container">
+            <div class="avatar-ring">
+                <img id="userAvatar" class="avatar-img" src="" alt="Profile">
+            </div>
+            <div class="profile-info">
+                <div class="name-row">
+                    <span id="userName" class="profile-name">...</span>
+                    <span class="vip-badge">VIP</span>
+                </div>
+                <div class="status-online"><span class="status-dot">●</span> Active</div>
+                <div class="user-id">ID: <span id="userId">...</span></div>
+            </div>
+        </div>
+
+        <!-- Total Income -->
+        <div class="neon-box income-box">
+            <div class="income-title">Total Income 💼</div>
+            <div class="income-amount">$<span id="userBalance">0.00</span></div>
+        </div>
+
+        <!-- Start Live Call -->
+        <div class="neon-box call-btn-box">📹📞 Start Live Call</div>
+
+        <!-- Messenger App -->
+        <div class="neon-box messenger-btn-box">Use session private<br>messenger app</div>
+
+        <!-- Withdraw Money -->
+        <div class="neon-box withdraw-box">
+            <div class="withdraw-header">
+                <span>Withdraw Money / টাকা তুলুন</span>
+                <span>💳</span>
+            </div>
+            <select id="withdrawMethod" class="form-control-dark">
+                <option value="bKash">bKash</option>
+                <option value="Nagad">Nagad</option>
+                <option value="Rocket">Rocket</option>
+            </select>
+            <input type="text" id="withdrawAccount" class="form-control-dark" placeholder="Enter 12 Digit Account Number">
+            <input type="number" id="withdrawAmount" class="form-control-dark" placeholder="Amount ($)">
+            <button class="submit-btn" onclick="submitWithdraw()">Submit Request</button>
+        </div>
+
+        <!-- Profile Settings -->
+        <div class="settings-box">
+            <div class="settings-title">⚙ Profile Settings</div>
+            <input type="text" id="inputName" class="form-control-dark" placeholder="New Name">
+            <input type="text" id="inputAccount" class="form-control-dark" placeholder="New 12 Digit Account Number">
+            <div style="font-size: 12px; color: #aaa; margin-bottom: 5px;">Change Photo:</div>
+            <div class="file-input-wrapper">
+                <input type="file" id="inputPhoto" accept="image/*">
+            </div>
+            <button class="save-btn" onclick="saveProfileSettings()">Save Changes</button>
+        </div>
+
+        <!-- Recent Earnings & Secret Admin Access -->
+        <div class="earnings-title">
+            <span>Recent Earnings</span>
+            <span style="cursor: pointer; opacity: 0.2;" onclick="triggerAdmin()">⚙</span>
+        </div>
+        <div id="earningsList"></div>
+    </div>
+
+    <!-- Hidden Admin Panel Modal -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-content">
+            <h3 style="color: #00f2fe; margin-bottom: 12px; text-align: center;">Admin Balance Control</h3>
+            <input type="number" id="adminAmount" class="form-control-dark" placeholder="Amount ($)">
+            <select id="adminAction" class="form-control-dark">
+                <option value="add">Add Balance (+)</option>
+                <option value="deduct">Deduct Balance (-)</option>
+            </select>
+            <input type="text" id="adminNote" class="form-control-dark" placeholder="Note">
+            <button class="submit-btn" onclick="executeAdminAction()">Update</button>
+            <button class="save-btn" style="background:#444; margin-top:8px;" onclick="document.getElementById('adminModal').style.display='none'">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // JSONBin Credentials
+        const BIN_ID = "6ab23a94ffd5d16053223483";
+        const MASTER_KEY = "$2a$10$yeRNwgz7QnQBgW5PAK4OgOuv0Y7FnHjGoi8RdqkjvtwUdlepaez9q";
+        const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+        let globalData = {};
+
+        // Load Data from JSONBin
+        async function loadCloudData() {
+            document.getElementById('loader').style.display = 'flex';
+            try {
+                const res = await fetch(`${API_URL}/latest`, {
+                    headers: { 'X-Master-Key': MASTER_KEY }
+                });
+                const json = await res.json();
+                globalData = json.record;
+                renderUI();
+            } catch (err) {
+                alert("ডাটা লোড করতে সমস্যা হয়েছে!");
+            } finally {
+                document.getElementById('loader').style.display = 'none';
+            }
+        }
+
+        // Save Data to JSONBin
+        async function updateCloudData() {
+            document.getElementById('loader').style.display = 'flex';
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': MASTER_KEY
+                    },
+                    body: JSON.stringify(globalData)
+                });
+                if (res.ok) {
+                    renderUI();
+                    alert("ক্লাউড ডাটা সফলভাবে আপডেট হয়েছে! সব ডিভাইসে এখন এই ডাটা দেখাবে।");
+                }
+            } catch (err) {
+                alert("ডাটা সেভ করতে সমস্যা হয়েছে!");
+            } finally {
+                document.getElementById('loader').style.display = 'none';
+            }
+        }
+
+        function renderUI() {
+            document.getElementById('userName').innerText = globalData.name || "Moss Sathi_Live";
+            document.getElementById('userId').innerText = globalData.idNo || "321054258TR";
+            document.getElementById('userBalance').innerText = Number(globalData.balance || 0).toFixed(2);
+            if (globalData.avatar) document.getElementById('userAvatar').src = globalData.avatar;
+
+            let historyHTML = '';
+            (globalData.history || []).forEach(item => {
+                const isAdd = item.type === 'add';
+                historyHTML += `
+                    <div class="earning-item">
+                        <div>${item.title} <span class="${isAdd ? 'badge-success' : 'badge-deduct'}">${isAdd ? 'Success' : 'Deducted'}</span></div>
+                        <div style="color: ${isAdd ? '#ff0055' : '#00ff66'}; font-weight: bold;">
+                            ${isAdd ? '-' : '+'}$${Number(item.amount).toFixed(2)}
+                        </div>
+                    </div>`;
+            });
+            document.getElementById('earningsList').innerHTML = historyHTML;
+        }
+
+        // Save Profile Changes
+        async function saveProfileSettings() {
+            const newName = document.getElementById('inputName').value.trim();
+            const newAccount = document.getElementById('inputAccount').value.trim();
+            const photoInput = document.getElementById('inputPhoto');
+
+            if (newName) globalData.name = newName;
+            if (newAccount) globalData.idNo = newAccount;
+
+            if (photoInput.files && photoInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    globalData.avatar = e.target.result;
+                    await updateCloudData();
+                };
+                reader.readAsDataURL(photoInput.files[0]);
+            } else {
+                await updateCloudData();
+            }
+        }
+
+        // Submit Withdraw
+        async function submitWithdraw() {
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            const account = document.getElementById('withdrawAccount').value.trim();
+
+            if (!account || isNaN(amount) || amount <= 0) return alert("সঠিক অ্যাকাউন্ট নম্বর ও ব্যালেন্স দিন!");
+            if (amount > globalData.balance) return alert("আপনার পর্যাপ্ত ব্যালেন্স নেই!");
+
+            globalData.balance -= amount;
+            if (!globalData.history) globalData.history = [];
+            globalData.history.unshift({
+                id: Date.now(),
+                type: "deduct",
+                title: "Withdrawal Request",
+                amount: amount
+            });
+
+            document.getElementById('withdrawAmount').value = '';
+            document.getElementById('withdrawAccount').value = '';
+            await updateCloudData();
+        }
+
+        // Admin Access
+        function triggerAdmin() {
+            if (prompt("Enter Admin Secret Key:") === "32105425") {
+                document.getElementById('adminModal').style.display = 'flex';
+            } else {
+                alert("ভুল পাসওয়ার্ড!");
+            }
+        }
+
+        async function executeAdminAction() {
+            const amount = parseFloat(document.getElementById('adminAmount').value);
+            const action = document.getElementById('adminAction').value;
+            const note = document.getElementById('adminNote').value.trim();
+
+            if (isNaN(amount) || amount <= 0) return alert("সঠিক সংখ্যা দিন!");
+
+            if (action === 'add') {
+                globalData.balance += amount;
+            } else {
+                globalData.balance = Math.max(0, globalData.balance - amount);
+            }
+
+            if (!globalData.history) globalData.history = [];
+            globalData.history.unshift({
+                id: Date.now(),
+                type: action === 'add' ? 'add' : 'deduct',
+                title: note || (action === 'add' ? 'Income Added' : 'Deduction Success'),
+                amount: amount
+            });
+
+            document.getElementById('adminModal').style.display = 'none';
+            await updateCloudData();
+        }
+
+        // Initial Load
+        loadCloudData();
+    </script>
+</body>
+  </html>
